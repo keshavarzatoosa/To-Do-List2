@@ -25,9 +25,4 @@ class CustomUserAdmin(BaseUserAdmin):
     list_display = ('email', 'first_name', 'last_name')
     ordering = ('email',)
 
-    def save_model(self, request, obj, form, change):
-        if 'password' in form.cleaned_data and form.cleaned_data['password']:
-            obj.set_password(form.cleaned_data['password'])
-        return super().save_model(request, obj, form, change)
-
 admin.site.register(CustomUser, CustomUserAdmin)
