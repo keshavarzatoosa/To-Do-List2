@@ -76,5 +76,14 @@ class ToDoItemListView(APIView):
     @get_list_swagger
     def get(self, request):
         todo_items = ToDoItem.objects.all()
+        title = request.query_params.get('title')
+        if title:
+            todo_items = todo_items.filter(title__icontains=title)
+        description = request.query_params.get('description')
+        if description:
+            todo_items = todo_items.filter(description__icontains=description)
+        ordering = request.query_params.get('ordering')
+        if ordering:
+            todo_items = todo_items.order_by(ordering)
         serializer = ToDoItemSerializer(todo_items, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)

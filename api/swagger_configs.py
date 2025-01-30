@@ -94,10 +94,17 @@ def get_path_parameters():
             )
     ]
 
+def get_query_parameters():
+    return[
+        openapi.Parameter('title', openapi.IN_QUERY, description="Filter by title", type=openapi.TYPE_STRING),
+        openapi.Parameter('description', openapi.IN_QUERY, description="Filter by description", type=openapi.TYPE_STRING),
+        openapi.Parameter('ordering', openapi.IN_QUERY, description="Sort by field", type=openapi.TYPE_STRING),
+    ]
+
 get_list_swagger = base_swagger(
             operation_description="Get a list of all todo items. only authenticated users can access this.",
             responses={200: RESPONSES_DICT_TODO[200]},
-            manual_parameters=get_authentication_parameters()
+            manual_parameters=get_authentication_parameters() + get_query_parameters()
             )
 
 post_register_swagger = base_swagger(
