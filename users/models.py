@@ -5,13 +5,12 @@ from .managers import CustomUserManager
 
 
 class CustomUser(AbstractUser):
+    objects = CustomUserManager()
     username = None
     email = models.EmailField(_("email address"), unique=True)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
-
-    objects = CustomUserManager()
 
     class Meta:
         ordering = ['email']
