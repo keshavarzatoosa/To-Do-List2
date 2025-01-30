@@ -1,7 +1,8 @@
 from django.contrib import admin
+from django.urls import path
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.views import LoginView
-from .forms import CustomUserCreationForm, CustomUserChangeForm, CustomUserLoginForm
+from .forms import CustomUserCreationForm, CustomUserChangeForm
 from .models import CustomUser
 
 
@@ -27,7 +28,3 @@ class CustomUserAdmin(BaseUserAdmin):
     ordering = ('email',)
 
 admin.site.register(CustomUser, CustomUserAdmin)
-
-
-class CustomLoginView(LoginView):
-    authentication_form = CustomUserLoginForm
