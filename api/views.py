@@ -2,13 +2,14 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework.throttling import UserRateThrottle, AnonRateThrottle
+# from rest_framework.throttling import UserRateThrottle, AnonRateThrottle
 from rest_framework import status
 from django.shortcuts import get_object_or_404
 from .serializers import UserRegisterSerializer, UserLoginSerializer, ToDoItemSerializer
 from .permissions import IsCreaterOrReadOnly
 from todos.models import ToDoItem
 from .swagger_configs import *
+from .throttles import CustomUserRateThrottle
 
 
 class RegisterView(APIView):
@@ -73,7 +74,8 @@ class ToDoItemDeleteView(APIView):
 
 class ToDoItemListView(APIView):
     permission_classes = [IsAuthenticated]
-    throttle_classes = [UserRateThrottle, AnonRateThrottle]
+    throttle_classes = [CustomUserRateThrottle]
+    # throttle_classes = [UserRateThrottle, AnonRateThrottle]
 
     @get_list_swagger
     def get(self, request):
