@@ -42,6 +42,11 @@ def get_user_request_body():
                     description="Enter a password",
                     example="1234@abc"
                 ),
+                'name': openapi.Schema(
+                    type=openapi.TYPE_STRING,
+                    description="Enter a name",
+                    example="Elham"
+                ),
             },
             required=['email', 'password']
         )
@@ -94,7 +99,7 @@ get_list_swagger = base_swagger(
             )
 
 post_register_swagger = base_swagger(
-            operation_description="Register a user with email and password",
+            operation_description="Register a user with email and password and name",
             request_body=get_user_request_body(),
             responses={
                 201: RESPONSES_DICT_USER[201],
@@ -103,7 +108,7 @@ post_register_swagger = base_swagger(
             )
 
 post_login_swagger = base_swagger(
-            operation_description="Login a user with email and password",
+            operation_description="Login a user with email and password and name",
             request_body=get_user_request_body(),
             responses={
                 200: RESPONSES_DICT_USER[200],

@@ -12,12 +12,13 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['email', 'password']
+        fields = ['email', 'password', 'name']
     
     def create(self, validated_data):
         user = User.objects.create_user(
             password=validated_data['password'],
-            email=validated_data['email']
+            email=validated_data['email'],
+            name=validated_data['name']
         )
         return user
 
@@ -25,6 +26,7 @@ class UserSerializer(serializers.ModelSerializer):
 class UserRegisterSerializer(serializers.Serializer):
     email = serializers.EmailField()
     password = serializers.CharField(write_only=True)
+    name = serializers.CharField()
 
     def validate_email(self, value):
         if User.objects.filter(email=value).exists():
@@ -34,7 +36,8 @@ class UserRegisterSerializer(serializers.Serializer):
     def create(self, validated_data):
         user = User.objects.create_user(
             password=validated_data['password'],
-            email=validated_data['email']
+            email=validated_data['email'],
+            name=validated_data['name']
         )
         refresh = RefreshToken.for_user(user)
         return {
@@ -47,6 +50,7 @@ class UserRegisterSerializer(serializers.Serializer):
 class UserLoginSerializer(serializers.Serializer):
     email = serializers.EmailField()
     password = serializers.CharField(write_only=True)
+    name = serializers.CharField()
 
     def validate(self, data):
         email = data.get('email')
