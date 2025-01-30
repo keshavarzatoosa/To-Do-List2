@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from django.contrib.auth.views import LoginView
-from .forms import CustomUserCreationForm, CustomUserLoginForm
+from .forms import CustomUserCreationForm
 
 def home(request):
     return render(request, "users/home.html")
@@ -16,7 +16,3 @@ def register(request):
     else:
         form = CustomUserCreationForm()
     return render(request, 'users/register.html', {'form': form})
-
-class CustomLoginView(LoginView):
-    template_name = 'registration/login.html'
-    authentication_form = CustomUserLoginForm

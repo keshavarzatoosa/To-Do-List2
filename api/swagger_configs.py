@@ -27,10 +27,8 @@ RESPONSES_DICT_TODO ={
     400: "Bad request"
 }
 
-def get_user_request_body():
-    request_body = openapi.Schema(
-            type=openapi.TYPE_OBJECT,
-            properties={
+def get_user_request_body(include_name=False):
+    properties={
                 'email': openapi.Schema(
                     type=openapi.TYPE_STRING,
                     description="Enter a valid email",
@@ -42,12 +40,16 @@ def get_user_request_body():
                     description="Enter a password",
                     example="1234@abc"
                 ),
-                'name': openapi.Schema(
+            }
+    if include_name:
+        properties['name'] = openapi.Schema(
                     type=openapi.TYPE_STRING,
                     description="Enter a name",
                     example="Elham"
-                ),
-            },
+                )
+    request_body = openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties=properties,
             required=['email', 'password']
         )
     return request_body
@@ -100,7 +102,7 @@ get_list_swagger = base_swagger(
 
 post_register_swagger = base_swagger(
             operation_description="Register a user with email and password and name",
-            request_body=get_user_request_body(),
+            request_body=get_user_request_body(include_name=True),
             responses={
                 201: RESPONSES_DICT_USER[201],
                 400: RESPONSES_DICT_USER[400]
@@ -108,8 +110,8 @@ post_register_swagger = base_swagger(
             )
 
 post_login_swagger = base_swagger(
-            operation_description="Login a user with email and password and name",
-            request_body=get_user_request_body(),
+            operation_description="Login a user with email and password",
+            request_body=get_user_request_body(include_name=False),
             responses={
                 200: RESPONSES_DICT_USER[200],
                 400: RESPONSES_DICT_USER[400]

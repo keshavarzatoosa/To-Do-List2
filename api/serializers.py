@@ -50,7 +50,6 @@ class UserRegisterSerializer(serializers.Serializer):
 class UserLoginSerializer(serializers.Serializer):
     email = serializers.EmailField()
     password = serializers.CharField(write_only=True)
-    name = serializers.CharField()
 
     def validate(self, data):
         email = data.get('email')
