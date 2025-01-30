@@ -23,6 +23,7 @@ class RegisterView(APIView):
 
 class LoginView(APIView):
 
+    @post_login_swagger
     def post(self, request):
         serializer = UserLoginSerializer(data=request.data)
         if serializer.is_valid():
@@ -35,6 +36,7 @@ class LoginView(APIView):
 class ToDoItemCreateView(APIView):
     permission_classes = [IsAuthenticated]
 
+    @post_todo_swagger
     def post(self, request):
         serializer = ToDoItemSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
@@ -46,6 +48,7 @@ class ToDoItemCreateView(APIView):
 class ToDoItemUpdateView(APIView):
     permission_classes = [IsAuthenticated, IsCreaterOrReadOnly]
 
+    @put_todo_swagger
     def put(self, request, pk):
         todo_item = get_object_or_404(ToDoItem, pk=pk)
         self.check_object_permissions(request, todo_item)
@@ -59,6 +62,7 @@ class ToDoItemUpdateView(APIView):
 class ToDoItemDeleteView(APIView):
     permission_classes = [IsAuthenticated, IsCreaterOrReadOnly]
 
+    @delete_todo_swagger
     def delete(self, request, pk):
         todo_item = get_object_or_404(ToDoItem, pk=pk)
         self.check_object_permissions(request, todo_item)
