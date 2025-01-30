@@ -102,7 +102,9 @@ def get_query_parameters():
     ]
 
 get_list_swagger = base_swagger(
-            operation_description="Get a list of all todo items. only authenticated users can access this.",
+            operation_description="""Get a list of all to-do items with filtering and sorting options.
+                                     Only authenticated users can access this.
+                                     Limited to 5 requests per minute.""",
             responses={200: RESPONSES_DICT_TODO[200]},
             manual_parameters=get_authentication_parameters() + get_query_parameters()
             )
