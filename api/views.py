@@ -9,7 +9,7 @@ from .serializers import UserRegisterSerializer, UserLoginSerializer, ToDoItemSe
 from .permissions import IsCreaterOrReadOnly
 from todos.models import ToDoItem
 from .swagger_configs import *
-from .throttles import CustomUserRateThrottle
+from .throttles import CustomUserRateThrottle, CustomRateThrottle
 
 
 class RegisterView(APIView):
@@ -74,7 +74,8 @@ class ToDoItemDeleteView(APIView):
 
 class ToDoItemListView(APIView):
     permission_classes = [IsAuthenticated]
-    throttle_classes = [CustomUserRateThrottle]
+    throttle_classes = [CustomRateThrottle]
+    # throttle_classes = [CustomUserRateThrottle]
     # throttle_classes = [UserRateThrottle, AnonRateThrottle]
 
     @get_list_swagger
